@@ -215,23 +215,21 @@ function oidc_keycloak_map_user_role( $user, $user_claim ) {
 		// @var int $role_count
 		$role_count = 0;
 
-		foreach ( $user_claim['user-realm-role'] as $idp_role ) {
-			foreach ( $roles as $role_id => $role_name ) {
-				if ( ! empty( $settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ] ) ) {
-					if ( in_array( $idp_role, explode( ';', $settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ] ) ) ) {
-						$user->add_role( $role_id );
-						$role_count++;
-					}
-				}
-			}
-		}
+    foreach ( $user_claim['ressource_access']['wordpress'] as $roles ) {
+      if ( ! empty( $settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ] ) ) {
+        if ( in_array( $idp_role, explode( ';', $settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ] ) ) ) {
+          $user->add_role( $role_id );
+          $role_count++;
+        }
+      }
+    }
 
-		if ( intval( $role_count ) == 0 && ! empty( $settings['default_user_role'] ) ) {
-			if ( boolval( $settings['default_user_role'] ) ) {
-				$user->set_role( $settings['default_user_role'] );
-			}
-		}
-	}
+    if ( intval( $role_count ) == 0 && ! empty( $settings['default_user_role'] ) ) {
+      if ( boolval( $settings['default_user_role'] ) ) {
+        $user->set_role( $settings['default_user_role'] );
+      }
+    }
+  }
 
 }
 add_action( 'openid-connect-generic-update-user-using-current-claim', 'oidc_keycloak_map_user_role', 10, 2 );
