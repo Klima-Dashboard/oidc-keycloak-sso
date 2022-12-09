@@ -215,10 +215,10 @@ function oidc_keycloak_map_user_role( $user, $user_claim ) {
 
     foreach ( $user_claim['resource_access']['wordpress'] as $role ) {
       foreach ( $roles as $role_id => $role_name ) {
-        error_log($role_name);
-        error_log($settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ]);
+        error_log($role);
         if ( ! empty( $settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ] ) ) {
           if ( in_array( $role, explode( ';', $settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ] ) ) ) {
+            error_log('test')
             $user->add_role( $role_id );
             $role_count++;
           }
