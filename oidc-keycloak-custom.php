@@ -214,7 +214,7 @@ function oidc_keycloak_map_user_role( $user, $user_claim ) {
 		$role_count = 0;
 
     foreach ( $user_claim['resource_access']['wordpress'] as $idp_roles ) {
-      foreach($idp_roles as $role)
+      foreach($idp_roles as $role) {
         foreach ( $roles as $role_id => $role_name ) {
           error_log($role);
           error_log(print_r($settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ], true));
