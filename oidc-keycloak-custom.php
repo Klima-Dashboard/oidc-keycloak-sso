@@ -209,7 +209,6 @@ function oidc_keycloak_map_user_role( $user, $user_claim ) {
 	// @var array<mixed> $settings
   $settings = get_option( 'openid_connect_generic_settings', array() );
   error_log(print_r($user_claim, true));
-  error_log($user_claim['resource_access']['wordpress']);
 	// Check the user claim for the `user-realm-role` key to lookup the WordPress role for mapping.
 	if ( ! empty( $settings ) && ! empty( $user_claim['resource_access']['wordpress'] ) ) {
 		// @var int $role_count
@@ -217,6 +216,7 @@ function oidc_keycloak_map_user_role( $user, $user_claim ) {
 
     foreach ( $user_claim['resource_access']['wordpress'] as $role ) {
       foreach ( $roles as $role_id => $role_name ) {
+        error_log($role_name);
         error_log($settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ]);
         if ( ! empty( $settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ] ) ) {
           if ( in_array( $role, explode( ';', $settings[ 'oidc_idp_' . strtolower( $role_name ) . '_roles' ] ) ) ) {
